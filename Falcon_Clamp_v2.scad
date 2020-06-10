@@ -51,7 +51,7 @@ wall = 3.5; //[0:0.1:20]
 nTwist=1; //[0:0.5:5]
 nt = [1,1,1];
 // Gear depth ratio - actually just trims addendum radius - this could be automatic based on gear interference
-dr = [0.5,0.4,0.5];
+dr = [0.4,0.4,0.4];
 // Gear clearance
 tol=0.1; //[0:0.01:0.5]
 // pressure angle
