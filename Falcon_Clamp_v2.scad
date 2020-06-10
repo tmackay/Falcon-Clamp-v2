@@ -21,18 +21,18 @@ gh = [7.4, 7.6, 7.6];
 // Modules, planetary layers
 modules = len(gh);
 // Number of planet gears in inner circle
-planets = 3; //[3:1:21]
+planets = 5; //[3:1:21]
 // Number of teeth in inner planet gears
-pt=[11,11,11];
+pt=[5,4,5];
 
 // Sun gear multiplier
-sgm = 1/11; //[1:1:5]
+sgm = 1; //[1:1:5]
 // For fused sun gears, we require them to be a multiple of the planet teeth
 dt = pt*sgm;
 // For additional gear ratios we can add or subtract extra teeth (in multiples of planets) from rings but the profile will be further from ideal
-of = [0,1,0];
+of = [0,0,0];
 // Profile Shift
-ps = [-0.8,-0.8,-0.8];
+ps = [-0.1,-0.1,-0.1];
 // Number of teeth in ring gears
 rt = [for(i=[0:modules-1])round((2*dt[i]+2*pt[i])/planets+of[i])*planets-dt[i]];
 // Shaft diameter
@@ -40,7 +40,7 @@ shaft_d = 0; //[0:0.1:25]
 // secondary shafts (for larger sun gears)
 shafts = 6; //[0:1:12]
 // Outer diameter
-outer_d = 50; //[30:300]
+outer_d = 25; //[30:300]
 // Outer teeth
 outer_t = 0; //[0:1:24]
 // Width of outer teeth
@@ -51,7 +51,7 @@ wall = 3.5; //[0:0.1:20]
 nTwist=1; //[0:0.5:5]
 nt = [1,1,1];
 // Gear depth ratio - actually just trims addendum radius - this could be automatic based on gear interference
-dr = [0.4,0.4,0.4];
+dr = [0.5,0.4,0.5];
 // Gear clearance
 tol=0.1; //[0:0.01:0.5]
 // pressure angle
@@ -72,11 +72,11 @@ jaws = 1; //[0:1:6]
 // Jaw Initial Rotation (from closed)
 jaw_rot = 180; //[0:180]
 // Jaw Size
-jaw_size = 15; //[0:100]
+jaw_size = 22; //[0:100]
 // Jaw Offset
-jaw_offset = 0; //[0:0.1:100]
+jaw_offset = 3; //[0:0.1:100]
 // Jaw Taper Angle (outside edge)
-jaw_angle = 30; //[0:60]
+jaw_angle = 9; //[0:60]
 // Dimple radius
 dim_r = 1.1; //[0:0.1:2]
 // Dimple depth ratio
