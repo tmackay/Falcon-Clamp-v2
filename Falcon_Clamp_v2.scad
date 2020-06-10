@@ -21,18 +21,18 @@ gh = [7.4, 7.6, 7.6];
 // Modules, planetary layers
 modules = len(gh);
 // Number of planet gears in inner circle
-planets = 5; //[3:1:21]
+planets = 3; //[3:1:21]
 // Number of teeth in inner planet gears
-pt=[5,4,5];
+pt=[11,11,11];
 
 // Sun gear multiplier
-sgm = 1; //[1:1:5]
+sgm = 1/11; //[1:1:5]
 // For fused sun gears, we require them to be a multiple of the planet teeth
 dt = pt*sgm;
 // For additional gear ratios we can add or subtract extra teeth (in multiples of planets) from rings but the profile will be further from ideal
-of = [0,0,0];
+of = [0,1,0];
 // Profile Shift
-ps = [-0.1,-0.1,-0.1];
+ps = [-0.8,-0.8,-0.8];
 // Number of teeth in ring gears
 rt = [for(i=[0:modules-1])round((2*dt[i]+2*pt[i])/planets+of[i])*planets-dt[i]];
 // Shaft diameter
@@ -40,7 +40,7 @@ shaft_d = 0; //[0:0.1:25]
 // secondary shafts (for larger sun gears)
 shafts = 6; //[0:1:12]
 // Outer diameter
-outer_d = 25; //[30:300]
+outer_d = 50; //[30:300]
 // Outer teeth
 outer_t = 0; //[0:1:24]
 // Width of outer teeth
@@ -72,11 +72,11 @@ jaws = 1; //[0:1:6]
 // Jaw Initial Rotation (from closed)
 jaw_rot = 180; //[0:180]
 // Jaw Size
-jaw_size = 22; //[0:100]
+jaw_size = 15; //[0:100]
 // Jaw Offset
-jaw_offset = 3; //[0:0.1:100]
+jaw_offset = 0; //[0:0.1:100]
 // Jaw Taper Angle (outside edge)
-jaw_angle = 9; //[0:60]
+jaw_angle = 30; //[0:60]
 // Dimple radius
 dim_r = 1.1; //[0:0.1:2]
 // Dimple depth ratio
@@ -402,6 +402,30 @@ if(g==undef&&part=="2D"){
     }
     //translate([outer_d+tol,0,0])Rack(m = 2, z = 10, x = 0, y = 1, w = 20, clearance = tol);
     //translate(-[outer_d+tol,0,0])gear2D(1,PI*cp[0]/180,P,1,0.4,tol);
+    
+    // Jaws - TODO: generalise for modules (alternating hinge pattern)
+    for(k=[0:jaws-1])rotate([0,0,k*360/jaws]){
+        difference(){
+            intersection(){
+                translate([0,jaw_offset,0])
+                    square([outer_d/2+jaw_size,outer_d/2-jaw_offset]);
+                rotate([0,0,-jaw_angle])
+                    square([outer_d/2+jaw_size,outer_d/2]);
+            }
+            circle(r=outer_d/2+2*tol);
+        }
+        rotate([0,0,-jaw_rot])mirror([0,1,0]){
+            difference(){
+                intersection(){
+                    translate([0,jaw_offset,0])
+                        square([outer_d/2+jaw_size,outer_d/2-jaw_offset]);
+                    rotate([0,0,-jaw_angle])
+                        square([outer_d/2+jaw_size,outer_d/2]);
+                }
+                circle(r=outer_d/2+2*tol);
+            }
+        }
+    }
 }
 
 // test overhang removal
@@ -728,7 +752,7 @@ module Gear2D_(m = 1, z = 10, x = 0, y = 0, w = 20, clearance = 0, s = 5, p = 5,
             if(z>1)translate([AT,0,0]) // a little more overlap helps
                 rotate([0,0,90-180/z])translate([-r,0,0])square(2*r);
         }
-        circle(offset+m*(p/2+x-1)-clearance);
+        circle(offset+m*(p/2-x-1)-clearance);
         for(i=[-iterations:iterations])
             rotate([0,0,i*360/z/iterations])translate([0,offset,0])
                 rotate([0,0,-i*360/p/iterations])

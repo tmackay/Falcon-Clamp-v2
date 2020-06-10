@@ -1,0 +1,24 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+ <filter name="Flatten Visible Layers">
+  <Param tooltip="If true, flatten only visible layers, otherwise, all layers are used" value="true" description="Merge Only Visible Layers" isxmlparam="0" name="MergeVisible" type="RichBool"/>
+  <Param tooltip="Delete all the layers used as source in flattening. &lt;br>If all layers are visible only a single layer will remain after the invocation of this filter" value="true" description="Delete Layers " isxmlparam="0" name="DeleteLayer" type="RichBool"/>
+  <Param tooltip="Merge the vertices that are duplicated among different layers. &#xa;&#xa;Very useful when the layers are spliced portions of a single big mesh." value="true" description="Merge duplicate vertices" isxmlparam="0" name="MergeVertices" type="RichBool"/>
+  <Param tooltip="Do not discard unreferenced vertices from source layers&#xa;&#xa;Necessary for point-cloud layers" value="false" description="Keep unreferenced vertices" isxmlparam="0" name="AlsoUnreferenced" type="RichBool"/>
+ </filter>
+ <filter name="Simplification: Quadric Edge Collapse Decimation">
+  <Param tooltip="The desired final number of faces." value="20000" description="Target number of faces" isxmlparam="0" name="TargetFaceNum" type="RichInt"/>
+  <Param tooltip="If non zero, this parameter specifies the desired final size of the mesh as a percentage of the initial size." value="0.1" description="Percentage reduction (0..1)" isxmlparam="0" name="TargetPerc" type="RichFloat"/>
+  <Param tooltip="Quality threshold for penalizing bad shaped faces.&lt;br>The value is in the range [0..1]&#xa; 0 accept any kind of face (no penalties),&#xa; 0.5  penalize faces with quality &lt; 0.5, proportionally to their shape&#xa;" value="0.3" description="Quality threshold" isxmlparam="0" name="QualityThr" type="RichFloat"/>
+  <Param tooltip="The simplification process tries to do not affect mesh boundaries during simplification" value="true" description="Preserve Boundary of the mesh" isxmlparam="0" name="PreserveBoundary" type="RichBool"/>
+  <Param tooltip="The importance of the boundary during simplification. Default (1.0) means that the boundary has the same importance of the rest. Values greater than 1.0 raise boundary importance and has the effect of removing less vertices on the border. Admitted range of values (0,+inf). " value="1" description="Boundary Preserving Weight" isxmlparam="0" name="BoundaryWeight" type="RichFloat"/>
+  <Param tooltip="Try to avoid face flipping effects and try to preserve the original orientation of the surface" value="true" description="Preserve Normal" isxmlparam="0" name="PreserveNormal" type="RichBool"/>
+  <Param tooltip="Avoid all the collapses that should cause a topology change in the mesh (like closing holes, squeezing handles, etc). If checked the genus of the mesh should stay unchanged." value="true" description="Preserve Topology" isxmlparam="0" name="PreserveTopology" type="RichBool"/>
+  <Param tooltip="Each collapsed vertex is placed in the position minimizing the quadric error.&#xa; It can fail (creating bad spikes) in case of very flat areas. &#xa;If disabled edges are collapsed onto one of the two original vertices and the final mesh is composed by a subset of the original vertices. " value="true" description="Optimal position of simplified vertices" isxmlparam="0" name="OptimalPlacement" type="RichBool"/>
+  <Param tooltip="Add additional simplification constraints that improves the quality of the simplification of the planar portion of the mesh, as a side effect, more triangles will be preserved in flat areas (allowing better shaped triangles)." value="true" description="Planar Simplification" isxmlparam="0" name="PlanarQuadric" type="RichBool"/>
+  <Param tooltip="How much we should try to preserve the triangles in the planar regions. If you lower this value planar areas will be simplified more." value="0.001" description="Planar Simp. Weight" isxmlparam="0" name="PlanarWeight" type="RichFloat"/>
+  <Param tooltip="Use the Per-Vertex quality as a weighting factor for the simplification. The weight is used as a error amplification value, so a vertex with a high quality value will not be simplified and a portion of the mesh with low quality values will be aggressively simplified." value="false" description="Weighted Simplification" isxmlparam="0" name="QualityWeight" type="RichBool"/>
+  <Param tooltip="After the simplification an additional set of steps is performed to clean the mesh (unreferenced vertices, bad faces, etc)" value="true" description="Post-simplification cleaning" isxmlparam="0" name="AutoClean" type="RichBool"/>
+  <Param tooltip="The simplification is applied only to the selected set of faces.&#xa; Take care of the target number of faces!" value="false" description="Simplify only selected faces" isxmlparam="0" name="Selected" type="RichBool"/>
+ </filter>
+</FilterScript>
